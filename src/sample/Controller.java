@@ -18,6 +18,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -50,6 +51,7 @@ public class Controller implements Initializable {
     private ObservableList<OracleCl> usersData = FXCollections.observableArrayList();
     private Alert alert = new Alert(Alert.AlertType.INFORMATION);
     private static String loginBD, passwordBD;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -130,9 +132,9 @@ public class Controller implements Initializable {
 
     @FXML
     private void delStud(ActionEvent event) {
-        Integer delID = Integer.parseInt(empId.getText());
 
         try {
+            Integer delID = Integer.parseInt(empId.getText());
             connection = con.Connect(loginBD, passwordBD);
             rs = connection.createStatement().executeQuery("DELETE FROM LISTOFSTUDENTS.STUDENTS\n" +
                     "WHERE STUD_ID = "+ delID +" ");
@@ -145,44 +147,53 @@ public class Controller implements Initializable {
     @FXML
     private void changeelem(ActionEvent event) {
 
-       /* try {
+       /*try {
+            Integer id = Integer.parseInt(empId.getText());
+            Integer zk = Integer.parseInt(empZk.getText());
+            Integer kr = Integer.parseInt(empKurs.getText());
+            String fam = empFam.getText();
+            String im = empIm.getText();
+            String ot = empOt.getText();
+            String sc = empSpec.getText();
+            String gr = empGr.getText();
             connection = con.Connect(loginBD, passwordBD);
             Statement stmt = connection.createStatement();
             rs = stmt.executeQuery(
                     "BEGIN\n"+
                      "UPDATE LISTOFSTUDENTS.STUDENTS\n" +
-                          "SET NO_ZK = "+ Integer.parseInt(empZk.getText()) +",\n" +
-                              "FAM = '"+ empFam.getText() +"',\n" +
-                              "IM = '"+ empIm.getText() +"',\n" +
-                              "OT = '"+ empOt.getText() +"',\n" +
-                              "SPEC = '" + empSpec.getText() + "',\n" +
-                              "KURS = "+ Integer.parseInt(empKurs.getText()) +",\n" +
-                              "GR = '" + empGr.getText() + "',\n" +
-                             "WHERE STUD_ID = "+ Integer.parseInt(empId.getText()) +";\n" +
+                          "SET NO_ZK = "+ zk +",\n" +
+                              "FAM = '"+ fam +"',\n" +
+                              "IM = '"+ im +"',\n" +
+                              "OT = '"+ ot +"',\n" +
+                              "SPEC = '" + sc + "',\n" +
+                              "KURS = "+ kr +",\n" +
+                              "GR = '" + gr + "',\n" +
+                             "WHERE STUD_ID = "+ id +";\n" +
                             "COMMIT; \n" +
                             "END;"
             );
         }
-        catch (Exception ex) {err(ex); System.out.println(ex);} */
-       try {
+        catch (Exception ex) {err(ex); System.out.println(ex);}*/
            delStud(event);
            addelem(event);
            refreshtable();
-       }
-       catch (Exception ex) {err(ex); System.out.println(ex);}
     }
 
     @FXML
     private void addelem(ActionEvent event) {
-        Integer id = Integer.parseInt(empId.getText());
-        Integer zk = Integer.parseInt(empZk.getText());
-        Integer kr = Integer.parseInt(empKurs.getText());
-        String fam = empFam.getText();
-        String im = empIm.getText();
-        String ot = empOt.getText();
-        String sc = empSpec.getText();
-        String gr = empGr.getText();
         try {
+            /*String[] listCol = {empId.getText(), empZk.getText(), empKurs.getText(),
+                    empFam.getText(), empIm.getText(), empOt.getText(), empSpec.getText(),
+                    empGr.getText()};*/
+
+            Integer id = Integer.parseInt(empId.getText());
+            Integer zk = Integer.parseInt(empZk.getText());
+            Integer kr = Integer.parseInt(empKurs.getText());
+            String fam = empFam.getText();
+            String im = empIm.getText();
+            String ot = empOt.getText();
+            String sc = empSpec.getText();
+            String gr = empGr.getText();
             connection = con.Connect(loginBD, passwordBD);
             rs = connection.createStatement().executeQuery("INSERT INTO  LISTOFSTUDENTS.STUDENTS\n" +
                     "(STUD_ID, NO_ZK, FAM, IM, OT, SPEC, KURS, GR, DATA_R)\n" +
