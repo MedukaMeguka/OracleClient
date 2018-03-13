@@ -48,7 +48,7 @@ public class Controller implements Initializable {
     private Connection connection;
     private ResultSet rs = null;
     private ObservableList<OracleCl> usersData = FXCollections.observableArrayList();
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private Alert alert = new Alert(Alert.AlertType.INFORMATION);
     private static String loginBD, passwordBD;
 
     @Override
@@ -58,7 +58,7 @@ public class Controller implements Initializable {
 
 
     @FXML
-    private void entryInBD(ActionEvent event) throws IOException {
+    private void entryInBD(ActionEvent event) {
 
             try {
                 loginBD = login.getText();
@@ -68,7 +68,7 @@ public class Controller implements Initializable {
                     Stage stage = (Stage) entry.getScene().getWindow();
                     stage.close();
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DB.fxml"));
-                    Parent root1 = (Parent) fxmlLoader.load();
+                    Parent root1 = fxmlLoader.load();
                     stage = new Stage();
                     stage.initModality(Modality.APPLICATION_MODAL);
                     stage.setTitle("База данных");
@@ -93,15 +93,7 @@ public class Controller implements Initializable {
 
     @FXML
     private void loadDataFromDatabase(ActionEvent event) {
-        try {
-            connection = con.Connect(loginBD, passwordBD);
-            rs = connection.createStatement().executeQuery("SELECT * FROM LISTOFSTUDENTS.STUDENTS");
-            while (rs.next()) {
-                usersData.add(new OracleCl(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
-                        rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8)));
-            }
-        }
-        catch (Exception ex) {err(ex); System.out.println(ex);}
+        refreshtable();
         FAM.setCellValueFactory(new PropertyValueFactory<OracleCl, String>("FAM"));
         IM.setCellValueFactory(new PropertyValueFactory<OracleCl, String>("IM"));
         OT.setCellValueFactory(new PropertyValueFactory<OracleCl, String>("OT"));
@@ -114,18 +106,17 @@ public class Controller implements Initializable {
         refreshtable();
     }
 
-    public void err(Exception ex) {
+    private void err(Exception ex) {
         alert.setTitle("Ошибка");
         alert.setHeaderText(null);
         alert.setContentText("" + ex);
         alert.showAndWait();
     }
 
-    public void refreshtable() {
+    private void refreshtable() {
         usersData.clear();
         try {
             connection = con.Connect(loginBD, passwordBD);
-            usersData = FXCollections.observableArrayList();
             rs = connection.createStatement().executeQuery("SELECT * FROM LISTOFSTUDENTS.STUDENTS");
             while (rs.next()) {
                 usersData.add(new OracleCl(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
