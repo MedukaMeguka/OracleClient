@@ -164,9 +164,12 @@ public class Controller implements Initializable {
             );
         }
         catch (Exception ex) {err(ex); System.out.println(ex);} */
-        delStud(event);
-        addelem(event);
-        refreshtable();
+       try {
+           delStud(event);
+           addelem(event);
+           refreshtable();
+       }
+       catch (Exception ex) {err(ex); System.out.println(ex);}
     }
 
     @FXML
