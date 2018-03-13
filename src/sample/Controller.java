@@ -145,7 +145,7 @@ public class Controller implements Initializable {
     @FXML
     private void changeelem(ActionEvent event) {
 
-        try {
+       /* try {
             connection = con.Connect(loginBD, passwordBD);
             Statement stmt = connection.createStatement();
             rs = stmt.executeQuery(
@@ -163,7 +163,9 @@ public class Controller implements Initializable {
                             "END;"
             );
         }
-        catch (Exception ex) {err(ex); System.out.println(ex);}
+        catch (Exception ex) {err(ex); System.out.println(ex);} */
+        delStud(event);
+        addelem(event);
         refreshtable();
     }
 
