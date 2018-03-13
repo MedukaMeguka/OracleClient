@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <TableView fx:id="tableStudents" layoutX="196.0" layoutY="44.0" prefHeight="550.0" prefWidth="697.0">
+         <columns>
+            <TableColumn fx:id="STUD_ID" prefWidth="25.0" text="№" />
+            <TableColumn fx:id="NO_ZK" prefWidth="77.0" text="Номер зачётки" />
+            <TableColumn fx:id="FAM" prefWidth="116.0" text="Фамилия" />
+            <TableColumn fx:id="IM" prefWidth="108.0" text="Имя" />
+            <TableColumn fx:id="OT" prefWidth="112.0" text="Отчество" />
+            <TableColumn fx:id="SPEC" prefWidth="90.0" text="Специальность" />
+            <TableColumn fx:id="KURS" prefWidth="75.0" text="Курс" />
+            <TableColumn fx:id="GR" prefWidth="93.0" text="Группа" />
+         </columns>
+      </TableView>
+      <Button fx:id="swap" layoutX="744.0" layoutY="14.0" mnemonicParsing="false" onAction="#entryAuth" text="Сменить пользователя" />
+      <Label layoutX="14.0" layoutY="24.0" prefHeight="40.0" prefWidth="175.0" text="СОЗДАТЬ/УДАЛИТЬ/ИЗМЕНИТЬ СТУДЕНТА" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="empId" layoutX="14.0" layoutY="81.0" promptText="Номер Студента" />
+      <TextField fx:id="empZk" layoutX="14.0" layoutY="118.0" promptText="Номер зачётки" />
+      <TextField fx:id="empFam" layoutX="14.0" layoutY="154.0" promptText="Фамилия" />
+      <TextField fx:id="empIm" layoutX="14.0" layoutY="191.0" promptText="Имя" />
+      <TextField fx:id="empOt" layoutX="14.0" layoutY="225.0" promptText="Отчество" />
+      <TextField fx:id="empSpec" layoutX="14.0" layoutY="262.0" promptText="Специальность" />
+      <TextField fx:id="empKurs" layoutX="14.0" layoutY="300.0" promptText="Курс" />
+      <TextField fx:id="empGr" layoutX="14.0" layoutY="336.0" promptText="Группа" />
+      <Button fx:id="loadtbl" layoutX="14.0" layoutY="561.0" mnemonicParsing="false" onAction="#loadDataFromDatabase" prefHeight="25.0" prefWidth="163.0" text="загрузить таблицу" />
+      <Button fx:id="crstud" layoutX="14.0" layoutY="528.0" mnemonicParsing="false" onAction="#addelem" prefHeight="25.0" prefWidth="163.0" text="создать нового студента" />
+      <Button fx:id="delstud" layoutX="14.0" layoutY="493.0" mnemonicParsing="false" onAction="#delStud" prefHeight="25.0" prefWidth="163.0" text="удалить студента" />
+      <Button fx:id="changestud" layoutX="14.0" layoutY="457.0" mnemonicParsing="false" onAction="#changeelem" text="изменить данные студента" />
+   </children>
+</AnchorPane>
