@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
 
@@ -75,12 +76,7 @@ public class Controller implements Initializable {
                     stage.show();
                 }
             }
-            catch (Exception ex) {
-                alert.setTitle("Ошибка");
-                alert.setHeaderText(null);
-                alert.setContentText("Неверно введённые данные. Введите их снова.");
-                alert.showAndWait();
-            }
+            catch (Exception ex) {err(ex); System.out.println(ex);}
     }
 
     @FXML
@@ -105,7 +101,7 @@ public class Controller implements Initializable {
                         rs.getString(5), rs.getString(6), rs.getInt(7), rs.getString(8)));
             }
         }
-        catch (Exception e) { System.err.println("Error " + e + loginBD + passwordBD);}
+        catch (Exception ex) {err(ex); System.out.println(ex);}
         FAM.setCellValueFactory(new PropertyValueFactory<OracleCl, String>("FAM"));
         IM.setCellValueFactory(new PropertyValueFactory<OracleCl, String>("IM"));
         OT.setCellValueFactory(new PropertyValueFactory<OracleCl, String>("OT"));
@@ -138,7 +134,7 @@ public class Controller implements Initializable {
             }
             tableStudents.setItems(usersData);
         }
-        catch (Exception ex) {err(ex);}
+        catch (Exception ex) {err(ex); System.out.println(ex);}
     }
 
     @FXML
@@ -150,7 +146,7 @@ public class Controller implements Initializable {
             rs = connection.createStatement().executeQuery("DELETE FROM LISTOFSTUDENTS.STUDENTS\n" +
                     "WHERE STUD_ID = "+ delID +" ");
         }
-        catch (Exception ex) {err(ex);}
+        catch (Exception ex) {err(ex); System.out.println(ex);}
 
         refreshtable();
     }
@@ -160,7 +156,9 @@ public class Controller implements Initializable {
 
         try {
             connection = con.Connect(loginBD, passwordBD);
-            rs = connection.createStatement().executeQuery(
+            Statement stmt = connection.createStatement();
+            rs = stmt.executeQuery(
+                    "BEGIN\n"+
                      "UPDATE LISTOFSTUDENTS.STUDENTS\n" +
                           "SET NO_ZK = "+ Integer.parseInt(empZk.getText()) +",\n" +
                               "FAM = '"+ empFam.getText() +"',\n" +
@@ -169,9 +167,12 @@ public class Controller implements Initializable {
                               "SPEC = '" + empSpec.getText() + "',\n" +
                               "KURS = "+ Integer.parseInt(empKurs.getText()) +",\n" +
                               "GR = '" + empGr.getText() + "',\n" +
-                             "WHERE STUD_ID = " + Integer.parseInt(empId.getText()) + " ");
+                             "WHERE STUD_ID = "+ Integer.parseInt(empId.getText()) +";\n" +
+                            "COMMIT; \n" +
+                            "END;"
+            );
         }
-        catch (Exception ex) {err(ex);}
+        catch (Exception ex) {err(ex); System.out.println(ex);}
         refreshtable();
     }
 
@@ -192,7 +193,7 @@ public class Controller implements Initializable {
                     "VALUES\n" +
                     "("+ id +", "+ zk +", '"+ fam +"', '"+ im +"', '"+ ot +"', '"+ sc +"', "+ kr +", '"+ gr +"', NULL)");
         }
-        catch (Exception ex) {err(ex);}
+        catch (Exception ex) {err(ex); System.out.println(ex);}
         refreshtable();
     }
 }
