@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.util.Locale;
 
 public class DBConnection {
-    public Connection Connect(String user, String password) {
+    public Connection Connect(String user, String password) { // метод для коннекта клиента к БД
 
         Locale.setDefault(Locale.ENGLISH);
 

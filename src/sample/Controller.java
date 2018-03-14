@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 
 
 public class Controller implements Initializable {
+    // переменные, представленные в fxml-документе
     @FXML private Button entry;
     @FXML private Button swap;
     @FXML private TextField login;
@@ -45,22 +46,23 @@ public class Controller implements Initializable {
     @FXML private TableColumn<OracleCl, Integer> STUD_ID;
     @FXML private TableColumn<OracleCl, Integer> KURS;
 
-    private DBConnection con;
+    private DBConnection con; // экземпляр класса, нужного для коннекта с БД
     private Connection connection;
     private ResultSet rs = null;
+    // здесь (переменная ниже) будут храниться данные, которые мы передадим табличной форме
     private ObservableList<OracleCl> usersData = FXCollections.observableArrayList();
-    private Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    private static String loginBD, passwordBD;
+    private Alert alert = new Alert(Alert.AlertType.INFORMATION); // для исключений
+    private static String loginBD, passwordBD; // инициализируем значения логина и пароля, передаваемые при входе
 
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources) { // авто-ки иниц. экземпляр класса DBConnection
         con = new DBConnection();
     }
 
 
     @FXML
-    private void entryInBD(ActionEvent event) {
+    private void entryInBD(ActionEvent event) { // метод для входа непосредственно в клиент с послед. сменой fxml-дока
 
             try {
                 loginBD = login.getText();
@@ -82,7 +84,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void entryAuth(ActionEvent event) throws IOException {
+    private void entryAuth(ActionEvent event) throws IOException { // метод, возвращающий в форму авторизации, с послед. сменой fxml-дока
         Stage stage = (Stage) swap.getScene().getWindow();
         stage.close();
 
@@ -94,7 +96,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void loadDataFromDatabase(ActionEvent event) {
+    private void loadDataFromDatabase(ActionEvent event) { // загрузка таблицы
         refreshtable();
         FAM.setCellValueFactory(new PropertyValueFactory<OracleCl, String>("FAM"));
         IM.setCellValueFactory(new PropertyValueFactory<OracleCl, String>("IM"));
@@ -108,14 +110,14 @@ public class Controller implements Initializable {
         refreshtable();
     }
 
-    private void err(Exception ex) {
+    private void err(Exception ex) { // вывод ошибки на экран
         alert.setTitle("Ошибка");
         alert.setHeaderText(null);
         alert.setContentText("" + ex);
         alert.showAndWait();
     }
 
-    private void refreshtable() {
+    private void refreshtable() { // обновление таблицы
         usersData.clear();
         try {
             connection = con.Connect(loginBD, passwordBD);
@@ -131,7 +133,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void delStud(ActionEvent event) {
+    private void delStud(ActionEvent event) { // удаления определенной строки
 
         try {
             Integer delID = Integer.parseInt(empId.getText());
@@ -145,7 +147,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void changeelem(ActionEvent event) {
+    private void changeelem(ActionEvent event) { // изменение строки
 
        try {
             Integer id = Integer.parseInt(empId.getText()); //Integer.parseInt()
@@ -156,12 +158,27 @@ public class Controller implements Initializable {
             String ot = empOt.getText();
             String sc = empSpec.getText();
             String gr = empGr.getText();
-            String[] listCol = {};
+            /*String[] listTField = {fam, im, ot, sc, gr};
+            Integer[] listIField = {zk, kr};
+            String[] listCol = {"FAM", "IM", "OT", "SPEC", "GR"};
+            String[] listICol = {"NO_ZK", "KURS"};
+            String inquiry = "";
+           for (int i = 0; i < listICol.length; i++) {
+               if (listIField[i] != null) {
+                   inquiry += listCol[i] + " = "  + listTField[i] + ",";
+               }
+           }
+            for (int i = 0; i < listCol.length; i++) {
+                if (listTField[i] != "") {
+                    inquiry += listCol[i] + " = " + "'" + listTField[i] + "'" + ",";
+                }
+            }
+            inquiry = inquiry.substring(0, inquiry.length() - 1); */
             connection = con.Connect(loginBD, passwordBD);
             rs = connection.createStatement().executeQuery(
                      "UPDATE LISTOFSTUDENTS.STUDENTS\n" +
                              "SET " +
-                          " NO_ZK = "+ zk +"," +
+                             " NO_ZK = "+ zk +"," +
                               "FAM = '"+ fam +"'," +
                               "IM = '"+ im +"'," +
                               "OT = '"+ ot +"'," +
@@ -179,7 +196,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void addelem(ActionEvent event) {
+    private void addelem(ActionEvent event) { // добавление новой строки
         try {
             /*String[] listCol = {empId.getText(), empZk.getText(), empKurs.getText(),
                     empFam.getText(), empIm.getText(), empOt.getText(), empSpec.getText(),
@@ -195,9 +212,9 @@ public class Controller implements Initializable {
             String gr = empGr.getText();
             connection = con.Connect(loginBD, passwordBD);
             rs = connection.createStatement().executeQuery("INSERT INTO  LISTOFSTUDENTS.STUDENTS\n" +
-                    "(STUD_ID, NO_ZK, FAM, IM, OT, SPEC, KURS, GR, DATA_R)\n" +
+                    "(STUD_ID, NO_ZK, FAM, IM, OT, SPEC, KURS, GR)\n" +
                     "VALUES\n" +
-                    "("+ id +", "+ zk +", '"+ fam +"', '"+ im +"', '"+ ot +"', '"+ sc +"', "+ kr +", '"+ gr +"', NULL)");
+                    "("+ id +", "+ zk +", '"+ fam +"', '"+ im +"', '"+ ot +"', '"+ sc +"', "+ kr +", '"+ gr +"')");
         }
         catch (Exception ex) {err(ex); System.out.println(ex);}
         refreshtable();

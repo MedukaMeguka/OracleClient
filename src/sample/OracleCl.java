@@ -15,7 +15,7 @@ public class OracleCl {
     private final IntegerProperty NO_ZK;
     private final IntegerProperty KURS;
 
-
+    // конструктор, необходимый для добавления значений из БД в структуру данных, ко-ую после передаем в табл. форме
     public OracleCl(Integer STUD_ID, Integer NO_ZK, String FAM, String IM, String OT,  String SPEC,Integer KURS, String GR)  {
         this.FAM = new SimpleStringProperty(FAM);
         this.OT = new SimpleStringProperty(OT);
@@ -26,6 +26,8 @@ public class OracleCl {
         this.NO_ZK = new SimpleIntegerProperty(NO_ZK);
         this.KURS = new SimpleIntegerProperty(KURS);
     }
+
+    // ниже представлены методы, необходимые для добавления зн-ий БД в структуру ObservableList
 
     public String getFam() {return FAM.get(); }
 
