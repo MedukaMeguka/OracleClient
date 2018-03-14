@@ -147,8 +147,8 @@ public class Controller implements Initializable {
     @FXML
     private void changeelem(ActionEvent event) {
 
-       /*try {
-            Integer id = Integer.parseInt(empId.getText());
+       try {
+            Integer id = Integer.parseInt(empId.getText()); //Integer.parseInt()
             Integer zk = Integer.parseInt(empZk.getText());
             Integer kr = Integer.parseInt(empKurs.getText());
             String fam = empFam.getText();
@@ -156,27 +156,26 @@ public class Controller implements Initializable {
             String ot = empOt.getText();
             String sc = empSpec.getText();
             String gr = empGr.getText();
+            String[] listCol = {};
             connection = con.Connect(loginBD, passwordBD);
-            Statement stmt = connection.createStatement();
-            rs = stmt.executeQuery(
-                    "BEGIN\n"+
+            rs = connection.createStatement().executeQuery(
                      "UPDATE LISTOFSTUDENTS.STUDENTS\n" +
-                          "SET NO_ZK = "+ zk +",\n" +
-                              "FAM = '"+ fam +"',\n" +
-                              "IM = '"+ im +"',\n" +
-                              "OT = '"+ ot +"',\n" +
-                              "SPEC = '" + sc + "',\n" +
-                              "KURS = "+ kr +",\n" +
-                              "GR = '" + gr + "',\n" +
-                             "WHERE STUD_ID = "+ id +";\n" +
-                            "COMMIT; \n" +
-                            "END;"
+                             "SET " +
+                          " NO_ZK = "+ zk +"," +
+                              "FAM = '"+ fam +"'," +
+                              "IM = '"+ im +"'," +
+                              "OT = '"+ ot +"'," +
+                              "SPEC = '" + sc + "'," +
+                              "KURS = "+ kr +"," +
+                              "GR = '" + gr + "'\n" +
+                             "WHERE STUD_ID = "+ id +"\n"
             );
         }
-        catch (Exception ex) {err(ex); System.out.println(ex);}*/
-           delStud(event);
+        catch (Exception ex) {err(ex); System.out.println(ex);}
+        refreshtable();
+          /* delStud(event);
            addelem(event);
-           refreshtable();
+           refreshtable();*/
     }
 
     @FXML
